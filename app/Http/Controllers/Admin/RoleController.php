@@ -1,6 +1,6 @@
 <?php
 
-namespace OrlandoLibardi\OlCms\UserCms\app\Http\Controllers\Admin;
+namespace OrlandoLibardi\UserCms\app\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;

@@ -17,13 +17,13 @@
     },
     "autoload": {
         "psr-4": {
-            "OrlandoLibardi\\OlCms\\AdminCms\\": "./"
+            "OrlandoLibardi\\UserCms\\": "./"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "OrlandoLibardi\\OlCms\\AdminCms\\app\\Providers\\AdminCmsServiceProvider"
+                "OrlandoLibardi\\UserCms\\app\\Providers\\OlCmsUserServiceProvider"
             ]
         }
     }

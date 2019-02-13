@@ -1,9 +1,9 @@
 <?php
 
-namespace OrlandoLibardi\OlCms\UserCms\app\Http\Controllers\Admin;
+namespace OrlandoLibardi\UserCms\app\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use OrlandoLibardi\OlCms\UserCms\app\User;
+use OrlandoLibardi\UserCms\app\User;
 use Spatie\Permission\Models\Role;
 use DB;
 use Hash;

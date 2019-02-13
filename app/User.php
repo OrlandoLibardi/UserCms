@@ -1,6 +1,6 @@
 <?php
 
-namespace OrlandoLibardi\OlCms\UserCms\app;
+namespace OrlandoLibardi\UserCms\app;
 
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;

@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Blade;
 
-class UserServiceProvider extends ServiceProvider
+class OlCmsUserServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
