@@ -11,7 +11,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "orlandolibardi/admincms": "dev",
+        "orlandolibardi/admincms": "dev-master",
         "spatie/laravel-permission": "2.*",
         "laravelcollective/html": "5.6.*"
     },
