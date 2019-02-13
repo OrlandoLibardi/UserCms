@@ -10,10 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-//Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {});
-
 //Users
-Route::resource('users','Admin\UserController');
+Route::resource('users','UserController');
 //Roles
-Route::resource('roles','Admin\RoleController');
+Route::resource('roles','RoleController');
