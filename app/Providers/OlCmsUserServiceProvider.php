@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Route;
 
 class OlCmsUserServiceProvider extends ServiceProvider
 {
+
+    protected $commands = [
+        'OrlandoLibardi\UserCms\app\Console\Commands\UserOlCmsCommand',
+    ];
+
     /**
      * Bootstrap any application services.
      *
@@ -30,13 +35,8 @@ class OlCmsUserServiceProvider extends ServiceProvider
             __DIR__.'/../../app/User.php' => app_path('/'),
         ],'adminUser');
 
-        //Comandos
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                UserOlCmsCommand::class
-            ]);
-        }
         
+    
     }
 
     /**
@@ -46,6 +46,6 @@ class OlCmsUserServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        
+        $this->commands($this->commands);
     }
 }
