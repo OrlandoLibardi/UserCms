@@ -62,7 +62,7 @@ class UserCmsTableSeeder extends Seeder
                 'route' => '',
                 'icon' => 'fa fa-cog',
                 'parent_id' => 0,
-                'minimun_can' => 'config',
+                'minimun_can' => 'configure',
                 'order_at' => 11
         ]);
 
@@ -71,7 +71,7 @@ class UserCmsTableSeeder extends Seeder
             'route' => 'roles.index',
             'icon' => '',
             'parent_id' => $config->id,
-            'minimun_can' => 'config',
+            'minimun_can' => 'configure',
             'order_at' => 1
         ]);
 
