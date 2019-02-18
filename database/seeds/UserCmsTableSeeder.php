@@ -5,6 +5,7 @@ use App\User;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
+use OrlandoLibardi\OlCms\AdminCms\app\Admin;
 
 class UserCmsTableSeeder extends Seeder
 {
@@ -44,5 +45,17 @@ class UserCmsTableSeeder extends Seeder
             'model_type' => 'App\User',
             'model_id' => $user->id
          ]);
+
+
+         //Criar instancia no menu administrador
+         Admin::create([
+            'name' => 'Usuários',
+            'route' => 'users.index',
+            'icon' => 'fa fa-users',
+            'parent_id' => 0,
+            'minimun_can' => 'list',
+            'order_at' => 10
+        ]);
+
     }
 }
