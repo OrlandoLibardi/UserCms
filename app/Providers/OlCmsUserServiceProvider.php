@@ -32,7 +32,7 @@ class OlCmsUserServiceProvider extends ServiceProvider
             __DIR__.'/../../resources/views/admin/' => resource_path('views/admin/'),
             __DIR__.'/../../resources/views/auth/' => resource_path('views/auth/'),
             __DIR__.'/../../database/seeds/' => database_path('seeds'),
-            __DIR__.'/../../app/User.php' => app_path('/'),
+            __DIR__.'/../../app/User.php' => app_path('/User.php'),
         ],'adminUser');
 
         
