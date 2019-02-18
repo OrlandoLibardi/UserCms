@@ -1,6 +1,6 @@
 {
     "name": "orlandolibardi/usercms",
-    "description": "Sistema de usu\u0000rios administrativos com ACL spatie",
+    "description": "Sistema de usu\u0000rios administrativos para OlCMS",
     "type": "module",
     "license": "MIT",
     "authors": [
