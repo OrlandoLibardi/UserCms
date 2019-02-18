@@ -57,5 +57,23 @@ class UserCmsTableSeeder extends Seeder
             'order_at' => 10
         ]);
 
+        $config = Admin::create([
+                'name' => 'Configurações',
+                'route' => '',
+                'icon' => 'fa fa-cog',
+                'parent_id' => 0,
+                'minimun_can' => 'config',
+                'order_at' => 11
+        ]);
+
+        Admin::create([
+            'name' => 'Permissões',
+            'route' => 'roles.index',
+            'icon' => '',
+            'parent_id' => $config->id,
+            'minimun_can' => 'config',
+            'order_at' => 1
+        ]);
+
     }
 }

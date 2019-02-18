@@ -45,7 +45,7 @@ class UserOlCmsCommand extends Command{
 
 
         //Rotina Make:auth normal   
-        $this->info('Trabalhando no Auth padrão:');
+        $this->info('Trabalhando no Auth padrão...');
 
         $this->call('make:auth');
         //Apos o auth substituir os arquivos
@@ -68,6 +68,8 @@ class UserOlCmsCommand extends Command{
                 @unlink( $file );
             }
         }   
+
+        $this->info('Concluído!');
 
         return 0;
         

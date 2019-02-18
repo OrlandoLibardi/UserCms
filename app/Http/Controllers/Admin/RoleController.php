@@ -40,7 +40,7 @@ public function index(Request $request)
 
 
 
-    return view('viewUserCms::roles.index', compact('roles', 'permission', 'role', 'permission_list'));
+    return view('admin.roles.index', compact('roles', 'permission', 'role', 'permission_list'));
 }
 
 
@@ -85,7 +85,7 @@ public function edit($id)
     ->all();
 
 
-    return view('viewUserCms::roles.index',compact('role','permission','rolePermissions'));
+    return view('admin.roles.index',compact('role','permission','rolePermissions'));
 }
 
 

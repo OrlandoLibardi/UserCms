@@ -49,7 +49,7 @@ class UserController extends Controller
         $data = User::whereIn('id', $user_role)->orderBy('name','ASC')->get();
 
         $user  = false;
-        return view('viewUserCms::users.index',compact('data', 'roles', 'user'));        
+        return view('admin.users.index',compact('data', 'roles', 'user'));        
     }
 
 
@@ -107,7 +107,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        return view('viewUserCms::users.show', compact('user'));
+        return view('admin.users.show', compact('user'));
     }
 
 
@@ -123,19 +123,19 @@ class UserController extends Controller
         $role_model = DB::table('model_has_roles')->where('model_id', $user->id)->first();
         $role_id = $role_model->role_id;
 
-        if($role_id == 18){
+        if($role_id == 4){
             //super administrador (visualiza todos)
             $user_role = DB::table('model_has_roles')
                              ->get();
             $roles = Role::pluck('name','name')->all();
 
         }else
-        if($role_id == 17){
+        if($role_id == 3){
             //administrador visualiza (administradore, colaboradores, e visitantes)
             $user_role = DB::table('model_has_roles')
-                             ->where('role_id', "!=", 18)
+                             ->where('role_id', "!=", 4)
                              ->get();
-            $roles = Role::where('id', '!=', 18)->pluck('name','name')->all();
+            $roles = Role::where('id', '!=', 4)->pluck('name','name')->all();
 
         }else{
             $roles = Role::where('id', '=', $role_id)->pluck('name','name')->all();
@@ -144,7 +144,7 @@ class UserController extends Controller
 
         $user = User::find($id);
         $userRole = $user->roles->pluck('name','name')->all();
-        return view('viewUserCms::users.index',compact('user','roles','userRole'));
+        return view('admin.users.index',compact('user','roles','userRole'));
     }
 
 
