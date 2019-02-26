@@ -3,11 +3,12 @@
 namespace OrlandoLibardi\UserCms\app\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\User;
-
 use Spatie\Permission\Models\Role;
-use DB;
-use Hash;
+use App\User;
+use OrlandoLibardi\UserCms\app\Http\Requests\UserRequest;
+use OrlandoLibardi\UserCms\app\Http\Requests\UserUpdateRequest;
+use OrlandoLibardi\UserCms\app\Http\Requests\UserDeleteRequest;
+use OrlandoLibardi\UserCms\app\ServiceUser;
 use Auth;
 
 
@@ -18,38 +19,16 @@ class UserController extends Controller
     *
     * @return \Illuminate\Http\Response
     */
-    public function index(Request $request) {
-
-        
-        //pegar o id role
-        $user = Auth::user();
-        $role_model = DB::table('model_has_roles')->where('model_id', $user->id)->first();
-        $role_id = $role_model->role_id;
-        //fazer um verificação manual de propriedades
-        if($role_id == 4){
-            
-            //super administrador (visualiza todos)
-            $user_role = DB::table('model_has_roles')->get();
-            $roles = Role::pluck('name','name')->all();
-            
-        }else
-        if($role_id == 3){
-            //administrador visualiza (administradore, colaboradores, e visitantes)
-            $user_role = DB::table('model_has_roles')
-                        ->where('role_id', "!=", 18)
-                        ->get();
-            $roles = Role::where('id', '!=', 18)->pluck('name','name')->all();
-
-        }else{
-            //visitante e Colaborador (visualiza somente ele mesmo)
-            return redirect()->route('users.edit', [ 'id' => $user->id ]);
+    public function index(Request $request) 
+    {        
+        $nUser = User::roleId(Auth::user()->id);
+        if($nUser->role_id <= 2){
+            return redirect()->route('users.edit', [ 'id' => $nUser->id ]);
         }
-
-        $user_role = array_pluck($user_role, 'model_id', 'model_id');
-        $data = User::whereIn('id', $user_role)->orderBy('name','ASC')->get();
-
-        $user  = false;
-        return view('admin.users.index',compact('data', 'roles', 'user'));        
+        $userRole = ServiceUser::getUserRoles($nUser->role_id);
+        $roles     = ServiceUser::getRoles($nUser->role_id);
+        $data      = ServiceUser::Users($userRole);
+        return view('admin.users.index',compact('data', 'roles'));
     }
 
 
@@ -69,31 +48,10 @@ class UserController extends Controller
     * @param  \Illuminate\Http\Request  $request
     * @return \Illuminate\Http\Response
     */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-
-        $validator = validator($request->all(),
-        [ 'nome' => 'required',
-        'email' => 'required|email|unique:users,email',
-        'senha' => 'required',
-        'permissoes' => 'required'] );
-
-        if($validator->fails()) {
-
-            return response()->json(array( 'message' => 'Os dados fornecidos são inválidos.', 'status'  =>  'error',  'errors'   =>  $validator->errors()->all() ), 422);
-
-        }
-        $defaults = ['name' => 'nome',  'email' => 'email', 'password' => 'senha', 'roles' => 'permissoes'];
-        $input = $request->all();
-        $final = [];
-        foreach($defaults as $k=>$v){
-            $final[$k] = $input[$v];
-        }
-
-        $final['password'] = Hash::make($final['password']);
-        $user = User::create($final);
-        $user->assignRole($request->input('permissoes'));
-
+        $user = User::create($request->all());
+        $user->assignRole($request->role);
         return response()->json(array( 'message' => 'Criado com sucesso.', 'status'  =>  'success' ), 201);
     }
 
@@ -119,32 +77,13 @@ class UserController extends Controller
     */
     public function edit($id)
     {
-        $user = Auth::user();
-        $role_model = DB::table('model_has_roles')->where('model_id', $user->id)->first();
-        $role_id = $role_model->role_id;
-
-        if($role_id == 4){
-            //super administrador (visualiza todos)
-            $user_role = DB::table('model_has_roles')
-                             ->get();
-            $roles = Role::pluck('name','name')->all();
-
-        }else
-        if($role_id == 3){
-            //administrador visualiza (administradore, colaboradores, e visitantes)
-            $user_role = DB::table('model_has_roles')
-                             ->where('role_id', "!=", 4)
-                             ->get();
-            $roles = Role::where('id', '!=', 4)->pluck('name','name')->all();
-
-        }else{
-            $roles = Role::where('id', '=', $role_id)->pluck('name','name')->all();
-        }
-
-
-        $user = User::find($id);
-        $userRole = $user->roles->pluck('name','name')->all();
+        
+        $nUser = User::roleId(Auth::user()->id);
+        $userRole = ServiceUser::getUserRoles($nUser->role_id);
+        $roles     = ServiceUser::getRoles($nUser->role_id);
+        $user      = User::find($id);
         return view('admin.users.index',compact('user','roles','userRole'));
+
     }
 
 
@@ -155,37 +94,14 @@ class UserController extends Controller
     * @param  int  $id
     * @return \Illuminate\Http\Response
     */
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
-        $validator = validator($request->all(),
-        [ 'nome' => 'required',
-        'email' => 'required|email|unique:users,email,'.$id,
-        'permissoes' => 'required'] );
-
-        if($validator->fails())
-        return response()->json(array( 'message' => 'Os dados fornecidos são inválidos.', 'status'  =>  'error',  'errors'   =>  $validator->errors()->all() ), 422);
-
-        $defaults = ['name' => 'nome',  'email' => 'email', 'password' => 'senha', 'roles' => 'permissoes'];
-        $input    = $request->all();
-        $final    = [];
-
-        foreach($defaults as $k=>$v){
-            $final[$k] = $input[$v];
-        }
-
-        if(!empty($final['password'])){
-            $final['password'] = Hash::make($final['password']);
-        }else{
-            $final = array_except($final,array('password'));
-        }
-
-
-        DB::table('model_has_roles')->where('model_id',$id)->delete();
-
+        
+        ServiceUser::DeleteModelHasRole($id);
+        $all = ServiceUser::setParamsUpdateUser( $request->all() ) ;
         $user = User::find($id);
-        $user->update($final);
-        $user->assignRole($request->input('permissoes'));
-
+        $user->update(  $all );
+        $user->assignRole($request->role);
         return response()->json(array( 'message' => 'Editado com sucesso!', 'status'  =>  'success' ), 201);
 
     }
@@ -194,24 +110,11 @@ class UserController extends Controller
     /**
     * Remove the specified resource from storage.
     *
-    * @param  int  $id
-    * @return \Illuminate\Http\Response
+    * @param  array  $ids
     */
-    public function destroy(Request $request)
+    public function destroy(UserDeleteRequest $request)
     {
-
-        $validator = validator($request->all(), [ 'id' => 'required'] );
-
-        if($validator->fails()) return response()->json(array( 'message' => 'Os dados fornecidos são inválidos.', 'status'  =>  'error',  'errors'   =>  $validator->errors()->all() ), 422);
-
-
-        $ids = json_decode($request->input('id'));
-
-        foreach($ids as $id){
-
-            if(is_numeric($id)) User::find($id)->delete();
-
-        }
+        ServiceUser::delete($request->id);
         return response()->json(array( 'message' => 'Removidos com sucesso!', 'status'  =>  'success'), 201);
     }
 }

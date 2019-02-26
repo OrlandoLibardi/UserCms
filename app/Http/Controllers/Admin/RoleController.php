@@ -11,7 +11,6 @@ class RoleController extends Controller
 {
 
     public function __construct() {
-       // $this->middleware('permission:list');
         $this->middleware('permission:list');
         $this->middleware('permission:create', ['only' => ['create','store']]);
         $this->middleware('permission:edit', ['only' => ['edit','update']]);

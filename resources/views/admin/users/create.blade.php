@@ -1,4 +1,4 @@
-		<div class="col-md-5">
+<div class="col-md-5">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>Criar um novo usuário</h5>
@@ -12,7 +12,7 @@
 									<div class="col-sm-6">
 										<div class="form-group">
 											<label><span class="text-red">*</span> Nome</label>
-											{!! Form::text('nome', null, ['placeholder' => 'Nome...','class' => 'form-control']) !!}
+											{!! Form::text('name', null, ['placeholder' => 'Nome...','class' => 'form-control']) !!}
 										</div>
 										<div class="form-group">
 											<label><span class="text-red">*</span> E-mail</label>
@@ -22,11 +22,11 @@
 									<div class="col-sm-6">
 										<div class="form-group">
 											<label> <span class="text-red">*</span> Senha</label>
-											{!! Form::password('senha', ['placeholder' => 'Senha...','class' => 'form-control']) !!}
+											{!! Form::password('password', ['placeholder' => 'Senha...','class' => 'form-control']) !!}
 										</div>
 										<div class="form-group">
 											<label> <span class="text-red">*</span> Nível</label>
-											{!! Form::select('permissoes', $roles, null, ['class' => 'form-control', 'placeholder' => '--Selecione--']) !!}
+											{!! Form::select('role', $roles, null, ['class' => 'form-control', 'placeholder' => '--Selecione--']) !!}
 										</div>
 									</div>
 							{!! Form::close() !!}

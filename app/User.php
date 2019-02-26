@@ -26,4 +26,11 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    /**
+     * Retorna os dados do usuário mas o seu Role id
+     */
+    public static function RoleId(){
+        return User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id');
+    }
+
 }

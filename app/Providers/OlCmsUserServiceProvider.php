@@ -4,6 +4,8 @@ namespace OrlandoLibardi\UserCms\app\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use OrlandoLibardi\UserCms\app\Obervers\UserObserver;
+use App\User;
 
 class OlCmsUserServiceProvider extends ServiceProvider
 {
@@ -35,8 +37,8 @@ class OlCmsUserServiceProvider extends ServiceProvider
             __DIR__.'/../../app/User.php' => app_path('/User.php'),
         ],'adminUser');
 
+        User::observe(UserObserver::class);
         
-    
     }
 
     /**
