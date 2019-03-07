@@ -22,6 +22,7 @@ class UserController extends Controller
     public function index(Request $request) 
     {        
         $nUser = User::roleId(Auth::user()->id);
+
         if($nUser->role_id <= 2){
             return redirect()->route('users.edit', [ 'id' => $nUser->id ]);
         }
@@ -52,7 +53,11 @@ class UserController extends Controller
     {
         $user = User::create($request->all());
         $user->assignRole($request->role);
-        return response()->json(array( 'message' => 'Criado com sucesso.', 'status'  =>  'success' ), 201);
+        return response()
+                ->json(array( 
+                    'message' => __('olcms::messages.create_success'), 
+                    'status'  =>  'success' 
+                ), 200);
     }
 
 
@@ -77,7 +82,6 @@ class UserController extends Controller
     */
     public function edit($id)
     {
-        
         $nUser = User::roleId(Auth::user()->id);
         $userRole = ServiceUser::getUserRoles($nUser->role_id);
         $roles     = ServiceUser::getRoles($nUser->role_id);
@@ -102,7 +106,11 @@ class UserController extends Controller
         $user = User::find($id);
         $user->update(  $all );
         $user->assignRole($request->role);
-        return response()->json(array( 'message' => 'Editado com sucesso!', 'status'  =>  'success' ), 201);
+        return response()
+                ->json(array( 
+                    'message' => __('olcms::messages.update_success'), 
+                    'status'  =>  'success' 
+                ), 201);
 
     }
 
@@ -115,6 +123,10 @@ class UserController extends Controller
     public function destroy(UserDeleteRequest $request)
     {
         ServiceUser::delete($request->id);
-        return response()->json(array( 'message' => 'Removidos com sucesso!', 'status'  =>  'success'), 201);
+        return response()
+                ->json(array( 
+                    'message' => __('olcms::messages.destroy_success'), 
+                    'status'  =>  'success'
+                ), 201);
     }
 }

@@ -23,7 +23,7 @@
 		@endif
 	</div>
 <!-- route -->
-{!! Form:hidden('url_return', Route('users.index')) !!}
+{!! Form::hidden('url_return', Route('users.index')) !!}
 @endsection 
 @push( 'style' )
 <!-- Adicional Styles -->

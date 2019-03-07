@@ -27,9 +27,6 @@ class OlCmsUserServiceProvider extends ServiceProvider
         ->prefix('admin')
         ->group(__DIR__. '/../../routes/web.php');
 
-        //registrar as views
-        //$this->loadViewsFrom( __DIR__.'/../../resources/views/admin/', 'viewUserCms');
-        //publicar os arquivos
         $this->publishes([
             __DIR__.'/../../resources/views/admin/' => resource_path('views/admin/'),
             __DIR__.'/../../resources/views/auth/' => resource_path('views/auth/'),

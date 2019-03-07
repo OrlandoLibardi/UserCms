@@ -36,7 +36,7 @@ class UserCmsTableSeeder extends Seeder
         $user = User::create([
             'name' => 'Orlando Libardi',
             'email' => 'orlando@orlandolibardi.com.br',
-            'password' => bcrypt('admin01')
+            'password' => 'admin01'
         ]);
         
         //Assign role model id

@@ -29,8 +29,8 @@ class User extends Authenticatable
     /**
      * Retorna os dados do usuário mas o seu Role id
      */
-    public static function RoleId(){
-        return User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id');
+    public static function roleId($q){
+        return User::where('id', $q)->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')->first();
     }
 
 }
