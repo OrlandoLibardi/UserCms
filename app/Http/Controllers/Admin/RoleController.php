@@ -57,7 +57,7 @@ class RoleController extends Controller
         {
             return response()
                 ->json(array( 
-                    'message' => __('olcms::messages.request_error'), 
+                    'message' => __('messages.request_error'), 
                     'status'  =>  'error',  
                     'errors'   =>  $validator->errors()->all() 
                     ), 422);
@@ -68,7 +68,7 @@ class RoleController extends Controller
 
         return response()
                 ->json(array( 
-                    'message' => __('olcms::messages.create_success'), 
+                    'message' => __('messages.create_success'), 
                     'status'  =>  'success' 
                 ), 200);
     }
@@ -107,7 +107,7 @@ class RoleController extends Controller
         {
             return response()
                     ->json(array( 
-                        'message' => __('olcms::messages.request_error'), 
+                        'message' => __('messages.request_error'), 
                         'status'  =>  'error',  
                         'errors'   =>  $validator->errors()->all() 
                     ), 422);
@@ -122,7 +122,7 @@ class RoleController extends Controller
 
         return response()
                 ->json(array( 
-                    'message' => __('olcms::messages.update_success'), 
+                    'message' => __('messages.update_success'), 
                     'status'  =>  'success' 
                 ), 201);
 
@@ -143,7 +143,7 @@ class RoleController extends Controller
         {
             return response()
                     ->json(array( 
-                        'message' => __('olcms::messages.request_error'), 
+                        'message' => __('messages.request_error'), 
                         'status'  =>  'error',  
                         'errors'   =>  $validator->errors()->all() 
                     ), 422);
@@ -160,7 +160,7 @@ class RoleController extends Controller
         }
         return response()
                 ->json(array( 
-                    'message' => __('olcms::messages.destroy_success'), 
+                    'message' => __('messages.destroy_success'), 
                     'status'  =>  'success'
                 ), 201);
 
