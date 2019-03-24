@@ -3,7 +3,7 @@
 namespace OrlandoLibardi\UserCms\app\Console\Commands;
 
 use Illuminate\Console\Command;
-
+use Illuminate\Foundation\Composer;
 
 class UserOlCmsCommand extends Command{
 
@@ -22,7 +22,12 @@ class UserOlCmsCommand extends Command{
      * @var string
      */
     protected $description = 'Atualiza arquivos do Auth de acordo com a necessidade do OLCMS';
-
+    /**
+     * The Composer instance.
+     *
+     * @var \Illuminate\Foundation\Composer
+     */
+    protected $composer;
 
     /**
      * Create a new command instance.
@@ -32,6 +37,7 @@ class UserOlCmsCommand extends Command{
     public function __construct()
     {
         parent::__construct();
+        $this->composer = $composer;
     }
 
 
@@ -54,7 +60,7 @@ class UserOlCmsCommand extends Command{
             resource_path('views/auth/register.blade.php'),
             resource_path('views/auth/passwords/email.blade.php'),
             resource_path('views/auth/passwords/reset.blade.php'),
-            app_path('/User.php')
+            //app_path('/User.php')
         ];
         //exibir todos os itens que serão substituídos
         $this->info('Listando arquivos a serem atualizados:');
@@ -62,14 +68,30 @@ class UserOlCmsCommand extends Command{
         foreach($files as $file){
             $this->info( $file );
         }        
-
-        if( $this->confirm('Tudo certo?') ){
+        /*
+            Confirmar a exclusão dos arquivos e publicar os novos
+        */
+        if( $this->confirm('Tudo certo?') )
+        {
             foreach($files as $file){
                 @unlink( $file );
             }
+
+            $this->call('vendor:publish --provider="OrlandoLibardi\OlCms\AdminCms\app\Providers\AdminCmsServiceProvider" --tag="config"');
+
+            $this->call('migrate');
+    
+            $this->composer->dumpAutoloads();
+
+            $this->call('db:seed --class=AdminPagesCmsTableSeeder');
+    
+    
+            $this->info('Concluído!');
+
+
         }   
 
-        $this->info('Concluído!');
+        
 
         return 0;
         
