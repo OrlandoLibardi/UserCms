@@ -3,7 +3,7 @@
 namespace OrlandoLibardi\UserCms\app\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Foundation\Composer;
+use Illuminate\Support\Composer;
 
 class UserOlCmsCommand extends Command{
 
@@ -13,7 +13,7 @@ class UserOlCmsCommand extends Command{
      *
      * @var string
      */
-    protected $signature = 'OlCMS:update';
+    protected $signature = 'OLCMS:Users';
 
 
     /**
@@ -25,7 +25,7 @@ class UserOlCmsCommand extends Command{
     /**
      * The Composer instance.
      *
-     * @var \Illuminate\Foundation\Composer
+     * @var \Illuminate\Support\Composer
      */
     protected $composer;
 
@@ -34,7 +34,7 @@ class UserOlCmsCommand extends Command{
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Composer $composer)
     {
         parent::__construct();
         $this->composer = $composer;
@@ -76,17 +76,17 @@ class UserOlCmsCommand extends Command{
             foreach($files as $file){
                 @unlink( $file );
             }
-
-            $this->call('vendor:publish --provider="OrlandoLibardi\UserCms\app\Providers\OlCmsUserServiceProvider" --tag="adminUser"');
-            $this->call('vendor:publish --provider="Spatie\Permission\PermissionServiceProvider" --tag="config"');
-            $this->call('vendor:publish --provider="Spatie\Permission\PermissionServiceProvider" --tag="migrations"');
+            
+            $this->call('vendor:publish', ['--provider'=> 'OrlandoLibardi\UserCms\app\Providers\OlCmsUserServiceProvider', '--tag' => 'adminUser']);
+            $this->call('vendor:publish', ['--provider' => 'Spatie\Permission\PermissionServiceProvider', '--tag' => 'config']);
+            $this->call('vendor:publish', ['--provider' => 'Spatie\Permission\PermissionServiceProvider', '--tag' => 'migrations']);
 
             $this->call('migrate');
     
             $this->composer->dumpAutoloads();
 
-            $this->call('db:seed --class=PermissionTableSeeder');    
-            $this->call('db:seed --class=UserCmsTableSeeder');
+            $this->call('db:seed', ['--class' => 'PermissionTableSeeder']);    
+            $this->call('db:seed', ['--class' => 'UserCmsTableSeeder']);
     
             $this->info('Concluído!');
 
