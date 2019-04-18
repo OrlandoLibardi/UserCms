@@ -77,18 +77,17 @@ class UserOlCmsCommand extends Command{
                 @unlink( $file );
             }
 
-            $this->call('vendor:publish --provider="OrlandoLibardi\UserCms\app\Providers\OlCmsUserServiceProvider" --tag="adminUser"');
-            $this->call('vendor:publish --provider="Spatie\Permission\PermissionServiceProvider" --tag="config"');
-            $this->call('vendor:publish --provider="Spatie\Permission\PermissionServiceProvider" --tag="migrations"');
+            $this->call('vendor:publish --provider="OrlandoLibardi\OlCms\AdminCms\app\Providers\AdminCmsServiceProvider" --tag="config"');
 
             $this->call('migrate');
     
             $this->composer->dumpAutoloads();
 
-            $this->call('db:seed --class=PermissionTableSeeder');    
-            $this->call('db:seed --class=UserCmsTableSeeder');
+            $this->call('db:seed --class=AdminPagesCmsTableSeeder');
+    
     
             $this->info('Concluído!');
+
 
         }   
 
